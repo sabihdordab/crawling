@@ -9,7 +9,14 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Product List</h1>
-        <div class="row">
+        
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Run Scraper</button>
+        </form>
+        
+        <div class="row mt-5">
             {% for product in products %}
             <div class="col-md-4 mb-4">
                 <div class="card">
