@@ -64,7 +64,11 @@ class DivarScraper(BaseScraper):
             description = item.find_all('div', class_='kt-post-card__description')[0].text.strip() if item.find_all('div', class_='kt-post-card__description') else 'No description'
             price = item.find_all('div', class_='kt-post-card__description')[1].text.strip() if len(item.find_all('div', class_='kt-post-card__description')) > 1 else 'No price'
         
-            image_url = item.find('img')['src'] if item.find('img') else None
+            image = item.find('img')
+            if image:
+                image_url = image.get('data-src') if image.get('data-src') else image.get('src')
+            else:
+                image_url = None
         
         
             source_url = f"https://divar.ir{item.find('a', class_='kt-post-card__action')['href']}" if item.find('a', class_='kt-post-card__action') else None
