@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import requests
 from bs4 import BeautifulSoup
-from product_crawler.models import Product  
+from .models import Product  
 
 class BaseScraper(ABC):
     
@@ -45,6 +45,10 @@ class BaseScraper(ABC):
             print("No products found to save.")
 
 
+    def run(self):
+        self.collect_products()
+
+
 
 class DivarScraper(BaseScraper):
     
@@ -79,12 +83,5 @@ class DivarScraper(BaseScraper):
             })
     
         return products
-
-
-
-
-def run_divar_scraper(limit=50):
-    divar_scraper = DivarScraper(limit)
-    divar_scraper.collect_products()
 
 
