@@ -46,6 +46,45 @@ class BaseScraper(ABC):
 
 
 
+class DivarScraper(BaseScraper):
+    
+    def __init__(self, limit=50):
+        url = "https://divar.ir/s/ahvaz/electronic-devices"
+        super().__init__(url, limit)
 
+    def parse_products(self, html_content):
+        soup = BeautifulSoup(html_content, 'html.parser')
+        products = []
+        for item in soup.find_all('article', class_='kt-post-card'):  
+            title = item.find('h2', class_='kt-post-card__title').text.strip() if item.find('h2', class_='kt-post-card__title') else 'No title'
+            description = item.find_all('div', class_='kt-post-card__description')[0].text.strip() if item.find_all('div', class_='kt-post-card__description') else 'No description'
+            price = item.find_all('div', class_='kt-post-card__description')[1].text.strip() if len(item.find_all('div', class_='kt-post-card__description')) > 1 else 'No price'
+        
+            image_url = item.find('img')['src'] if item.find('img') else None
+        
+        
+            source_url = f"https://divar.ir{item.find('a', class_='kt-post-card__action')['href']}" if item.find('a', class_='kt-post-card__action') else None
+        
+        
+            date = item.find('span', class_='kt-post-card__bottom-description').text.strip() if item.find('span', class_='kt-post-card__bottom-description') else ''
+                   
+        
+            products.append({
+                'title': title,
+                'price': price,
+                'description': description + ' ' + date,
+                'image_url': image_url,
+                'source_website': 'Divar',
+                'source_url': source_url,
+            })
+    
+        return products
+
+
+
+
+def run_divar_scraper(limit=50):
+    divar_scraper = DivarScraper(limit)
+    divar_scraper.collect_products()
 
 
