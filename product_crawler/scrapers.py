@@ -89,3 +89,45 @@ class DivarScraper(BaseScraper):
         return products
 
 
+class BamiloScraper(BaseScraper):
+    
+    def __init__(self, limit=50):
+        url = "https://bamiloshop.ir/product-tag/%da%a9%d8%aa%d8%a7%d9%86%db%8c-%d8%b2%d9%86%d8%a7%d9%86%d9%87/"
+        super().__init__(url, limit)
+
+    def parse_products(self, html_content):
+        soup = BeautifulSoup(html_content, 'html.parser')
+        products = []
+
+        for item in soup.find_all('div', class_='product-wrapper'):
+            title = item.find('h3', class_='wd-entities-title')
+            if title:
+                title = title.find('a').text.strip() if title.find('a') else 'No title'
+            else:
+                title = 'No title'
+
+            description = item.find('span', class_='out-of-stock product-label')
+            description = description.text.strip() if description else ''
+
+            price_tag = item.find('span', class_='price')
+            if price_tag:
+                price = price_tag.find('bdi').text.strip() if price_tag.find('bdi') else 'No price'
+            else:
+                price = 'No price'
+
+            link = item.find('a', class_='product-image-link')
+            product_url = f"{link['href']}" if link else None
+
+            image_tag = item.find('img')
+            image_url = image_tag['src'] if image_tag  else None
+
+            products.append({
+                'title': title,
+                'price': price,
+                'description': description,
+                'image_url': image_url,
+                'source_website': 'Bamilo',
+                'source_url': product_url,
+            })
+
+        return products
