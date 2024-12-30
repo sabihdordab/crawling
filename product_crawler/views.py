@@ -8,8 +8,9 @@ def scraper_view(request):
         form = ScraperSelectionForm(request.POST)
         if form.is_valid():
             scraper_choice = form.cleaned_data['scraper']
+            limit = form.cleaned_data['limit']
             if scraper_choice == 'divar':
-                divar_scraper = DivarScraper()
+                divar_scraper = DivarScraper(limit=limit)
                 divar_scraper.run()
                 return redirect('scraper_view')
     else:
