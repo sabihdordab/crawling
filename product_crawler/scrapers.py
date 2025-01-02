@@ -53,7 +53,7 @@ class BaseScraper(ABC):
 class DivarScraper(BaseScraper):
     
     def __init__(self, limit=50):
-        url = "https://divar.ir/s/ahvaz/electronic-devices"
+        url = "https://divar.ir/s/tehran/electronic-devices"
         super().__init__(url, limit)
 
     def parse_products(self, html_content):
@@ -86,6 +86,49 @@ class DivarScraper(BaseScraper):
                 'source_url': source_url,
             })
     
+        return products
+
+
+
+
+class BasalamScraper(BaseScraper):
+
+    def __init__(self, limit=50):
+        url = "https://basalam.com/search/subcategory/mobile-phones"
+        super().__init__(url, limit)
+
+    def parse_products(self, html_content):
+        soup = BeautifulSoup(html_content, 'html.parser')
+        products = []
+
+        for item in soup.find_all('div', class_='_KeJul _0UvDlh _1n_6H7', limit=self.limit):
+            div1 = item.find('div', class_='ssEXuG')
+            if div1:
+                link_tag = div1.find('a')
+                product_link = "https://basalam.com/" + link_tag['href'] if link_tag else None
+                img_tag = div1.find('img')
+                image_url = img_tag['src'] if img_tag else None
+
+            div2 = item.find('div', class_='_3YTkz_')
+            if div2:
+                title_tag = div2.find('a')
+                title = title_tag.text.strip() if title_tag else "No title"
+                city_span = div2.find('span', class_='AaCRfg')
+                city = city_span.text.strip() if city_span else "No city"
+                price_div = div2.find('span', class_='_oC9ho')
+                price = price_div.text.strip() if price_div else "No price"
+
+            description = f"City: {city}"
+
+            products.append({
+                'title': title,
+                'price': price,
+                'description': description,
+                'image_url': image_url,
+                'source_website': 'Basalam',
+                'source_url': product_link,
+            })
+
         return products
 
 

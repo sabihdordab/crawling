@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import ScraperSelectionForm
-from .scrapers import DivarScraper , BamiloScraper
+from .scrapers import DivarScraper , BamiloScraper , BasalamScraper
 from . models import Product
 
 def scraper_view(request):
@@ -12,6 +12,11 @@ def scraper_view(request):
             if scraper_choice == 'divar':
                 divar_scraper = DivarScraper(limit=limit)
                 divar_scraper.run()
+
+            elif scraper_choice == 'basalam': 
+                basalam_scraper = BasalamScraper(limit=limit)
+                basalam_scraper.run()
+
             elif scraper_choice == 'bamilo':
                 bamilo_scraper = BamiloScraper(limit=limit)
                 bamilo_scraper.run()

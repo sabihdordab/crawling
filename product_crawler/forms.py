@@ -23,7 +23,8 @@ class ScraperSelectionForm(forms.Form):
 
 class ScraperSelectionForm(forms.Form):
     scraper_choices = [
-        ('divar', 'Divar'), 
+        ('divar', 'Divar'),
+        ('basalam', 'Basalam'), 
         ('bamilo', 'Bamilo'),
     ]
     scraper = forms.ChoiceField(choices=scraper_choices, label='Select Scraper')
