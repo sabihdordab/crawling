@@ -52,8 +52,7 @@ class BaseScraper(ABC):
 
 class DivarScraper(BaseScraper):
     
-    def __init__(self, limit=50):
-        url = "https://divar.ir/s/tehran/electronic-devices"
+    def __init__(self, url = "https://divar.ir/s/tehran/electronic-devices" , limit=50):
         super().__init__(url, limit)
 
     def parse_products(self, html_content):
@@ -93,8 +92,7 @@ class DivarScraper(BaseScraper):
 
 class BasalamScraper(BaseScraper):
 
-    def __init__(self, limit=50):
-        url = "https://basalam.com/search/subcategory/mobile-phones"
+    def __init__(self, url = "https://basalam.com/search/subcategory/mobile-phones", limit=50):
         super().__init__(url, limit)
 
     def parse_products(self, html_content):

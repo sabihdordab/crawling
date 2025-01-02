@@ -10,11 +10,16 @@ def scraper_view(request):
             scraper_choice = form.cleaned_data['scraper']
             limit = form.cleaned_data['limit']
             if scraper_choice == 'divar':
-                divar_scraper = DivarScraper(limit=limit)
+                divar_city = form.cleaned_data['divar_city']
+                divar_category = form.cleaned_data['divar_category']
+                url = f"https://divar.ir/s/{divar_city}/{divar_category}"
+                divar_scraper = DivarScraper(url=url, limit=limit)
                 divar_scraper.run()
 
             elif scraper_choice == 'basalam': 
-                basalam_scraper = BasalamScraper(limit=limit)
+                basalam_category = form.cleaned_data['basalam_category']
+                url = f"https://basalam.com/search/subcategory/{basalam_category}"
+                basalam_scraper = BasalamScraper(url=url, limit=limit)
                 basalam_scraper.run()
 
             elif scraper_choice == 'bamilo':
