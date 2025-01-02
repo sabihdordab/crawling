@@ -15,14 +15,14 @@ class ScraperSelectionForm(forms.Form):
     ]
 
     DIVAR_CATEGORY_CHOICES = [
-        ('vehicles', 'Vehicles'),
-        ('electronic-devices', 'Electronic Devices'),
-        ('watches', 'Watches'),
         ('mobile-tablet', 'Mobile & Tablet'),
         ('computers', 'Computers'),
         ('game-consoles', 'Game Consoles'),
+        ('electronic-devices', 'Electronic Devices'),
         ('motorcycles', 'Motorcycles'),
         ('game-and-toys', 'Games & Toys'),
+        ('watches', 'Watches'),
+        ('vehicles', 'Vehicles'),
     ]
 
     BASALAM_CATEGORY_CHOICES = [
